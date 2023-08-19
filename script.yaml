@@ -1,0 +1,447 @@
+openapi: 3.0.3
+info:
+  title: Onboarding - API 3.0
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://student.swagger.io/api/v3
+tags:
+  - name: student
+    description: Operations about user
+paths:
+  /student:
+    put:
+      tags:
+        - student
+      summary: Update an existing student
+      description: Update an existing student by Id
+      operationId: updateStudent
+      requestBody:
+        description: Update an existent student in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Student'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Student'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Student not found
+        '405':
+          description: Validation exception
+      security:
+        - petstore_auth:
+            - write:students
+            - read:students
+    post:
+      tags:
+        - student
+      summary: Add a new student
+      description: Add a new student
+      operationId: addStudent
+      requestBody:
+        description: Create a new student
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Student'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Student'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '405':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - write:students
+            - read:students
+  /student/findByStatus:
+    get:
+      tags:
+        - student
+      summary: Finds Students by status
+      description: Multiple status values can be provided with comma separated strings
+      operationId: findStudentsByStatus
+      parameters:
+        - name: status
+          in: query
+          description: Status values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: available
+            enum:
+              - available
+              - pending
+              - sold
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        '400':
+          description: Invalid status value
+      security:
+        - petstore_auth:
+            - write:students
+            - read:students
+  /student/findByTags:
+    get:
+      tags:
+        - student
+      summary: Finds Students by tags
+      description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+      operationId: findStudentsByTags
+      parameters:
+        - name: tags
+          in: query
+          description: Tags to filter by
+          required: false
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        '400':
+          description: Invalid tag value
+      security:
+        - petstore_auth:
+            - write:students
+            - read:students
+  /teacher:
+    put:
+      tags:
+        - teacher
+      summary: Update an existing teacher
+      description: Update an existing teacher by Id
+      operationId: updateTeacher
+      requestBody:
+        description: Update an existent teacher
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teacher'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Teacher'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Teacher not found
+        '405':
+          description: Validation exception
+      security:
+        - petstore_auth:
+            - write:teachers
+            - read:teachers
+    post:
+      tags:
+        - teacher
+      summary: Add a new teacher
+      description: Add a new teacher
+      operationId: addTeacher
+      requestBody:
+        description: Create a new teacher
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teacher'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Teacher'
+        '405':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - write:teachers
+            - read:teachers
+  /teacher/findByStatus:
+    get:
+      tags:
+        - teacher
+      summary: Finds teachers by status
+      description: Multiple status values can be provided with comma separated strings
+      operationId: findTeachersByStatus
+      parameters:
+        - name: status
+          in: query
+          description: Status values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: available
+            enum:
+              - available
+              - pending
+              - sold
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Teacher'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Teacher'
+        '400':
+          description: Invalid status value
+      security:
+        - petstore_auth:
+            - write:teachers
+            - read:teachers
+  /teacher/findByTags:
+    get:
+      tags:
+        - teacher
+      summary: Finds Teachers by tags
+      description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+      operationId: findTeachersByTags
+      parameters:
+        - name: tags
+          in: query
+          description: Tags to filter by
+          required: false
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Teacher'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Teacher'
+        '400':
+          description: Invalid tag value
+      security:
+        - petstore_auth:
+            - write:teachers
+            - read:teachers
+  
+components:
+  schemas:
+    Student:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        studentname:
+          type: string
+          example: theStudent
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+        birthdate:
+          type: string
+        phone:
+          type: string
+          example: '12345'
+        userStatus:
+          type: integer
+          description: Student Status
+          format: int32
+          example: 1
+      xml:
+        name: student
+    Teacher:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        teachername:
+          type: string
+          example: theTeacher
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+        birthdate:
+          type: string
+        phone:
+          type: string
+          example: '12345'
+        userStatus:
+          type: integer
+          description: Teacher Status
+          format: int32
+          example: 1
+      xml:
+        name: teacher
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      xml:
+        name: tag
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
+  requestBodies:
+    Pet:
+      description: Pet object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Student'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Student'
+    UserArray:
+      description: List of student object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Student'
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://student.swagger.io/oauth/authorize
+          scopes:
+            write:students: modify students in your account
+            read:students: read your students
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
