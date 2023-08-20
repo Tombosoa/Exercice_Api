@@ -4,18 +4,12 @@ This repository contains a YAML script used for creating an OpenAPI specificatio
 
 ## Repository Description
 
-This repository houses a YAML script that creates an OpenAPI (formerly Swagger) specification for designing RESTful APIs. OpenAPI is a set of rules for detailing RESTful APIs in a format that's easy to read and understand by both humans and machines. 
-
-## Script Details 
-
-The YAML script in this repository outlines the endpoints supported by our RESTful API, the HTTP methods each endpoint supports (GET, POST, PUT, DELETE, etc.), the data they consume and produce, and their error messages.
-
-Here's a simplified example of what an OpenAPI specification YAML file might look like:
+This repository is about a specification for 'Student' and 'Teacher' with the corresponding methods.
 
 
 ## Swagger UI Preview
 
-You can preview and interact with the API as defined by this YAML script using [Swagger UI](https://swagger.io/tools/swagger-ui/). Swagger UI is a tool that allows developers to visualize and interact with APIs defined by the OpenAPI specification.
+You can preview and interact with the API as defined by this YAML script using [Swagger UI](https://swagger.io/tools/swagger-ui/).
 
 Here is a screenshot of what the Swagger UI looks like:
 
