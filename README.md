@@ -19,7 +19,7 @@ You can preview and interact with the API as defined by this YAML script using [
 
 Here is a screenshot of what the Swagger UI looks like:
 
-![Swagger UI Preview](<https://raw.githubusercontent.com/Tombosoa/Exercice_Api/main/script.yaml/images/swagger-ui-preview.png>)
+![Swagger UI Preview](specApi.JPG)
 
 ## Installation 
 
