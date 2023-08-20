@@ -12,12 +12,27 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-  - url: https://student.swagger.io/api/v3
+  - url: https://std22098.swagger.io/api/v3
 tags:
   - name: student
     description: Operations about user
 paths:
   /student:
+    get:
+      summary: Get all students
+      operationId: getAllStudents
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              example:
+                - id: 1
+                  name: nata
+                  birthdate: 2001-08-13 
+                - id: 2
+                  name: marc
+                  birthdate: 2004-01-01 
     put:
       tags:
         - student
@@ -54,7 +69,7 @@ paths:
         '405':
           description: Validation exception
       security:
-        - petstore_auth:
+        - student_auth:
             - write:students
             - read:students
     post:
@@ -89,7 +104,33 @@ paths:
         '405':
           description: Invalid input
       security:
-        - petstore_auth:
+        - student_auth:
+            - write:students
+            - read:students
+  /student/{studentId}:
+    delete:
+      tags:
+        - student
+      summary: Deletes a student
+      description: Deletes an existing student by Id
+      operationId: deleteStudent
+      parameters:
+        - name: studentId
+          in: path
+          description: ID of the student that needs to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Student not found
+      security:
+        - student_auth:
             - write:students
             - read:students
   /student/findByStatus:
@@ -110,8 +151,7 @@ paths:
             default: available
             enum:
               - available
-              - pending
-              - sold
+              - not available
       responses:
         '200':
           description: successful operation
@@ -129,7 +169,7 @@ paths:
         '400':
           description: Invalid status value
       security:
-        - petstore_auth:
+        - student_auth:
             - write:students
             - read:students
   /student/findByTags:
@@ -166,10 +206,30 @@ paths:
         '400':
           description: Invalid tag value
       security:
-        - petstore_auth:
+        - student_auth:
             - write:students
             - read:students
   /teacher:
+    get:
+      summary: Get all teacher
+      operationId: getAllTeachers
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              example:
+                - id: 1
+                  lastname: Lou
+                  course: 
+                   id: 1
+                   name: SYS2
+                - id: 2
+                  lastname: Toky
+                  course: 
+                   id: 2
+                   name: PROG1
+                   
     put:
       tags:
         - teacher
@@ -206,7 +266,7 @@ paths:
         '405':
           description: Validation exception
       security:
-        - petstore_auth:
+        - teacher_auth:
             - write:teachers
             - read:teachers
     post:
@@ -241,7 +301,33 @@ paths:
         '405':
           description: Invalid input
       security:
-        - petstore_auth:
+        - teacher_auth:
+            - write:teachers
+            - read:teachers
+  /teacher/{teacherId}:
+    delete:
+      tags:
+        - teacher
+      summary: Deletes a teacher
+      description: Deletes an existing teacher by Id
+      operationId: deleteTeacher
+      parameters:
+        - name: teacherId
+          in: path
+          description: ID of the teacher that needs to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Teacher not found
+      security:
+        - teacher_auth:
             - write:teachers
             - read:teachers
   /teacher/findByStatus:
@@ -262,8 +348,7 @@ paths:
             default: available
             enum:
               - available
-              - pending
-              - sold
+              - not available
       responses:
         '200':
           description: successful operation
@@ -281,7 +366,7 @@ paths:
         '400':
           description: Invalid status value
       security:
-        - petstore_auth:
+        - teacher_auth:
             - write:teachers
             - read:teachers
   /teacher/findByTags:
@@ -318,7 +403,7 @@ paths:
         '400':
           description: Invalid tag value
       security:
-        - petstore_auth:
+        - teacher_auth:
             - write:teachers
             - read:teachers
   
@@ -331,18 +416,18 @@ components:
           type: integer
           format: int64
           example: 10
-        studentname:
+        std:
           type: string
-          example: theStudent
+          example: STD22098
         firstName:
           type: string
-          example: John
+          example: Ram
         lastName:
           type: string
-          example: James
+          example: Nata
         email:
           type: string
-          example: john@email.com
+          example: nata@gmail.com
         password:
           type: string
           example: '12345'
@@ -365,23 +450,20 @@ components:
           type: integer
           format: int64
           example: 10
-        teachername:
-          type: string
-          example: theTeacher
         firstName:
           type: string
-          example: John
+          example: Lou
         lastName:
           type: string
-          example: James
+          example: Maurica
         email:
           type: string
-          example: john@email.com
+          example: lou@hei.school
         password:
           type: string
           example: '12345'
-        birthdate:
-          type: string
+        course:
+          $ref: "#/components/schemas/course"
         phone:
           type: string
           example: '12345'
@@ -392,6 +474,25 @@ components:
           example: 1
       xml:
         name: teacher
+    course:
+      type: array
+      items: 
+        $ref: '#/components/schemas/diffCourse'
+      example: 
+        - id: 1
+          name: SYS2
+        - id: 2
+          name: SYS1
+      xml:
+        name: course
+    diffCourse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
     Tag:
       type: object
       properties:
@@ -415,8 +516,8 @@ components:
       xml:
         name: '##default'
   requestBodies:
-    Pet:
-      description: Pet object that needs to be added to the store
+    Student:
+      description: Student that need to be added
       content:
         application/json:
           schema:
@@ -424,7 +525,7 @@ components:
         application/xml:
           schema:
             $ref: '#/components/schemas/Student'
-    UserArray:
+    StudentArray:
       description: List of student object
       content:
         application/json:
@@ -432,8 +533,25 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Student'
+    Teacher:
+      description: Teacher that need to be added
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Teacher'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Teacher'
+    TeacherArray:
+      description: List of teacher object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Teacher'
   securitySchemes:
-    petstore_auth:
+    student_auth:
       type: oauth2
       flows:
         implicit:
@@ -441,6 +559,14 @@ components:
           scopes:
             write:students: modify students in your account
             read:students: read your students
+    teacher_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://student.swagger.io/oauth/authorize
+          scopes:
+            write:students: modify teachers in your account
+            read:students: read teachers
     api_key:
       type: apiKey
       name: api_key
